@@ -19,6 +19,7 @@ interface Week {
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
+
   calendar: Week[] = [];
 
   constructor(
@@ -26,7 +27,7 @@ export class CalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   this.dateService.date.subscribe(this.generate.bind(this))
+    this.dateService.date.subscribe(this.generate.bind(this))
   }
 
   generate(now: moment.Moment) {
@@ -36,22 +37,26 @@ export class CalendarComponent implements OnInit {
     const date = startDay.clone().subtract(1, 'day');
     const calendar = [];
 
-    while(date.isBefore(endDay, 'day')) {
+    while (date.isBefore(endDay, 'day')) {
       calendar.push({
         days: Array(7)
-        .fill(0)
-        .map(() => {
-          const value = date.add(1, 'day').clone();
-          const active = moment().isSame(value, 'date');
-          const disabled = !now.isSame(value, 'month');
-          const selected = now.isSame(value, 'date');
+          .fill(0)
+          .map(() => {
+            const value = date.add(1, 'day').clone();
+            const active = moment().isSame(value, 'date');
+            const disabled = !now.isSame(value, 'month');
+            const selected = now.isSame(value, 'date');
 
-          return {
-            value, active, disabled, selected
-          }
-        })
+            return {
+              value, active, disabled, selected
+            }
+          })
       })
     }
     this.calendar = calendar;
+  }
+
+  select(day: moment.Moment) {
+   this.dateService.changeDate(day);
   }
 }
