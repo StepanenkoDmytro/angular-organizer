@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DateService } from '../shared/date.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Task, TaskService } from '../shared/tasks.service';
@@ -12,10 +12,12 @@ import { switchMap } from 'rxjs';
 export class OrganizerComponent implements OnInit {
   public form!: FormGroup;
   public tasks: Task[] = [];
+  public editingTitle: string = '';
 
   constructor(
     public dateService: DateService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +30,6 @@ export class OrganizerComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl('', Validators.required)
     });
-
   }
 
   submit() {
@@ -36,7 +37,8 @@ export class OrganizerComponent implements OnInit {
 
     const task: Task = {
       title,
-      date: this.dateService.date.value.format('DD-MM-YYYY')
+      date: this.dateService.date.value.format('DD-MM-YYYY'),
+      isEditing: false
     }
 
     this.taskService.create(task).subscribe(task => {
@@ -50,5 +52,22 @@ export class OrganizerComponent implements OnInit {
     this.taskService.remove(task).subscribe(() => {
       this.tasks = this.tasks.filter(t => t.id !== task.id)
     }, err => console.log(err));
+  }
+
+  editTask(task: Task) {
+    task.isEditing = true;
+    this.editingTitle = task.title;
+  }
+
+  updateTask(task: Task) {
+    task.isEditing = false;
+    if (this.editingTitle !== task.title) {
+      this.taskService.update(task).subscribe((res) => {
+
+        Object.assign(task, res);
+        this.cdRef.detectChanges();
+
+      }, err => console.log(err));
+    }
   }
 }

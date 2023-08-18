@@ -5,6 +5,7 @@
     --primary-color: #dc3545;
     --dark-color: #333333;
     --light-color: #f4f4f4;
+    --accept-color: rgba(17, 192, 104, 0.726);
 }
 
 * {
@@ -35,6 +36,7 @@ ul {
 }
 
 input {
+    font-family: 'Roboto', sans-serif;
     display: block;
     width: 100%;
     padding: .4rem;
@@ -44,12 +46,12 @@ input {
     margin-bottom: .5rem;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    overflow: hidden;
-    padding: 0 2rem;
-}
+// .container {
+//     max-width: 1100px;
+//     margin: auto;
+//     overflow: hidden;
+//     padding: 0 2rem;
+// }
 
 table th {
     background: var(--light-color);
@@ -63,7 +65,6 @@ table th {
     font-size: 1rem;
     border: none;
     cursor: pointer;
-    margin-right: .5rem;
     transition: opacity .2s;
     outline: none;
 
@@ -90,4 +91,10 @@ table th {
 
 .text-center {
     text-align: center;
+    margin: 10px;
+}
+
+.btn-accept {
+    background: var(--accept-color);
+    color: #fff;
 }

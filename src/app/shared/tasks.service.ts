@@ -1,71 +1,77 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http'
-import { Observable, map, pipe } from "rxjs";
+import { Observable, map, pipe, tap } from "rxjs";
 import * as moment from "moment";
 
 
 export interface Task {
     id?: string,
     title: string,
-    date?: string
+    date?: string,
+    isEditing?: boolean
 }
 
 interface CreateResponse {
     name: string
 }
 
+interface FirebaseRequest {
+    title: string,
+    date?: string
+}
+
+interface FirebaseMapResponse {
+    [key: string]: FirebaseRequest;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class TaskService {
-    static url = 'https://angular-first-calendar-default-rtdb.europe-west1.firebasedatabase.app/tasks';
+    static URL: string = 'https://angular-first-calendar-default-rtdb.europe-west1.firebasedatabase.app/tasks';
 
     constructor(
         private http: HttpClient
     ) { }
 
-    create(task: Task): Observable<Task> {
+    public create(task: Task): Observable<Task> {
+        const request: FirebaseRequest = {
+            title: task.title,
+            date: task.date
+        };
         return this.http
-            .post<CreateResponse>(`${TaskService.url}/${task.date}.json`, task)
+            .post<CreateResponse>(`${TaskService.URL}/${task.date}.json`, request)
             .pipe(
                 map(res => {
-                    console.log('Response ', res);
                     return { ...task, id: res.name }
                 })
             )
     }
 
-    load(date: moment.Moment): Observable<Task[]> {
+    public load(date: moment.Moment): Observable<Task[]> {
         return this.http
-            .get<Task[]>(`${TaskService.url}/${date.format('DD-MM-YYYY')}.json`)
+            .get<FirebaseMapResponse>(`${TaskService.URL}/${date.format('DD-MM-YYYY')}.json`)
             .pipe(
-                map((tasks: Task[]) => {
+                map((tasks: FirebaseMapResponse) => {
                     if (!tasks) {
                         return [];
                     }
-                    // console.log(tasks);
-                    // const mock: Task[] = []
-                    // return mock;
-                    const tasksArray: Task[] = [];
-
-                    for (const key in tasks) {
-                        if (tasks.hasOwnProperty(key)) {
-                            const task: Task = {
-                                id: key,
-                                ...tasks[key]
-                            };
-                            tasksArray.push(task);
-                        }
-                    }
-                    return tasksArray;
-                    // return Object.keys(tasks).map(key => ({...tasks[key], id: key}));
+                    return Object.keys(tasks).map(key => ({...tasks[key], id: key}));
                 })
             )
     }
 
-    remove(task: Task): Observable<void> {
-        console.log('Try to delete ', task.id, `${TaskService.url}/${task.date}/${task.id}.json`);
+    public update(task: Task): Observable<Task> {
+        const request: FirebaseRequest = {
+            title: task.title,
+            date: task.date
+        };
         return this.http
-            .delete<void>(`${TaskService.url}/${task.date}/${task.id}.json`);
+            .put<Task>(`${TaskService.URL}/${task.date}/${task.id}.json`, request);
+    }
+
+    public remove(task: Task): Observable<void> {
+        return this.http
+            .delete<void>(`${TaskService.URL}/${task.date}/${task.id}.json`);
     }
 }
