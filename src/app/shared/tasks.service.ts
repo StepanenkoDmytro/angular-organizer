@@ -45,7 +45,7 @@ export class TaskService {
                 map(res => {
                     return { ...task, id: res.name }
                 })
-            )
+            );
     }
 
     public load(date: moment.Moment): Observable<Task[]> {

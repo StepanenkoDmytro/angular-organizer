@@ -3,14 +3,22 @@
     
   </header> -->
 
-  <main>
-    <div>
-      <app-selector class="header"></app-selector>
-      <app-calendar></app-calendar>
+  <main class="body">
+    
+    <div class="main-container">
+
+      <div class="calendar-organizer-container">
+        <app-selector class="header"></app-selector>
+        <app-calendar></app-calendar>
+        <app-organizer></app-organizer>
+      </div>
+
+      <div class="scheduler-container">
+        <app-scheduler [formData]="formData"></app-scheduler>
+      </div>
+
     </div>
   </main>
 
-  <div>
-    <app-organizer></app-organizer>
-  </div>
+
 </div>

@@ -1,0 +1,28 @@
+// .scheduler-container {
+//     width: 100%;
+//     border: 1px solid red;
+//     // justify-content: space-between;
+//     // margin: 20px 40px;
+// }
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.scheduler {
+    border: 1px solid #000;
+}
+
+table {
+    width: 100%;
+    vertical-align: middle;
+
+    #td-count {
+        text-align: center;
+        width: 50px;
+    }
+
+    #td-icon {
+        // text-align: center;
+        margin-right: 0;
+        width: 24px;
+    }
+}

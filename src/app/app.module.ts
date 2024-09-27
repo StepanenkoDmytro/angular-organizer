@@ -9,6 +9,9 @@ import { MomentPipe } from './shared/moment.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,9 +20,11 @@ import { MatIconModule } from '@angular/material/icon';
     SelectorComponent,
     OrganizerComponent,
     MomentPipe,
+    SchedulerComponent,
   ],
   imports: [
     BrowserModule,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

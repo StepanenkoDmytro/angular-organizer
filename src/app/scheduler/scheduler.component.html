@@ -1,0 +1,33 @@
+<section>
+    <div>
+        <mat-icon>fact_check</mat-icon>
+        New task
+    </div>
+</section>
+
+<form [formGroup]="taskFormGroup">
+    <section>
+        <mat-form-field>
+            <label>Title</label>
+            <input [formControl]="titleCtrl" type="text">
+        </mat-form-field>
+    </section>
+
+    <section style="display: flex">
+        <mat-form-field>
+            <label>Start time:</label>
+            <input matInput [formControl]="startTimeCtrl" type="time">
+        </mat-form-field>
+
+        <mat-form-field>
+            <label>End time:</label>
+            <input [formControl]="endTimeCtrl" type="time">
+        </mat-form-field>
+    </section>
+    <section>
+        <input [formControl]="descCtrl" type="text">
+    </section>
+    <button type="button" (click)="checkForm()">
+        <mat-icon>delete</mat-icon>
+    </button>
+</form>

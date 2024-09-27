@@ -1,12 +1,31 @@
 .container {
     // display: flex;
     // justify-content: space-between;
-    max-width: 1100px;
     margin: auto;
     overflow: hidden;
     padding: 0 2rem;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: row;
+}
+
 .header {
     padding: 1rem 2rem;
+}
+
+// .body {
+//     display: flex;
+// }
+
+.calendar-organizer-container {
+    flex: 1;
+    margin-right: auto;
+    width: 800px;
+}
+
+.scheduler-container {
+    flex: 1;
+    padding: 30px 30px;
 }

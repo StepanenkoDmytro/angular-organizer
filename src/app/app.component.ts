@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ISchedulerFormData } from './scheduler/scheduler.component';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  public formData: ISchedulerFormData = {
+    title: '',
+    startTime: '',
+    endTime: '',
+    desc: ''
+  }
 }
